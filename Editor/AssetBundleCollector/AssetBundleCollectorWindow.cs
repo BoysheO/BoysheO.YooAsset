@@ -818,6 +818,14 @@ namespace YooAsset.Editor
                 foldout.text = "Main Assets";
                 elementFoldout.Add(foldout);
             }
+            {
+                var button = new Button();
+                button.name = "BtnCopyList";
+                button.text = "CopyList";
+                button.style.unityTextAlign = TextAnchor.MiddleLeft;
+                button.style.flexGrow = 0f;
+                elementTop.Add(button);
+            }
 
             // Space VisualElement
             {
@@ -961,6 +969,30 @@ namespace YooAsset.Editor
                 collector.AssetTags = evt.newValue;
                 AssetBundleCollectorSettingData.ModifyCollector(selectGroup, collector);
             });
+
+            var BtnCopyList = element.Q<Button>("BtnCopyList");
+            BtnCopyList.clicked += () =>
+            {
+                CollectCommand command = new CollectCommand(EBuildMode.SimulateBuild,
+                    _packageNameTxt.value,
+                    _enableAddressableToogle.value,
+                    _locationToLowerToogle.value,
+                    _includeAssetGUIDToogle.value,
+                    _ignoreDefaultTypeToogle.value,
+                    _autoCollectShadersToogle.value,
+                    _uniqueBundleNameToogle.value);
+                var collectAssetInfos = collector.GetAllCollectAssets(command, selectGroup);
+                var lst = collectAssetInfos.Select(collectAsset =>
+                {
+                    string showInfo = collectAsset.AssetInfo.AssetPath;
+                    if (_enableAddressableToogle.value)
+                        showInfo = $"[{collectAsset.Address}] {collectAsset.AssetInfo.AssetPath}";
+                    return showInfo;
+                });
+                var str = string.Join("\n",lst);
+                GUIUtility.systemCopyBuffer = str;
+                Debug.Log("已复制到剪贴板");
+            };
         }
         private void RefreshFoldout(Foldout foldout, AssetBundleCollectorGroup group, AssetBundleCollector collector)
         {
@@ -1007,12 +1039,18 @@ namespace YooAsset.Editor
                         if (_enableAddressableToogle.value)
                             showInfo = $"[{collectAsset.Address}] {collectAsset.AssetInfo.AssetPath}";
 
-                        var label = new Label();
-                        label.text = showInfo;
-                        label.style.width = 300;
-                        label.style.marginLeft = 0;
+                        var label = new TextField();
+                        label.SetValueWithoutNotify(showInfo);
                         label.style.flexGrow = 1;
+                        label.isReadOnly = true;
                         elementRow.Add(label);
+                        
+                        // var label = new Label();
+                        // label.text = showInfo;
+                        // label.style.width = 300;
+                        // label.style.marginLeft = 0;
+                        // label.style.flexGrow = 1;
+                        // elementRow.Add(label);
                     }
                 }
             }

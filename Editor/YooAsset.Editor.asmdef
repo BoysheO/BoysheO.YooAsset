@@ -2,7 +2,7 @@
     "name": "YooAsset.Editor",
     "rootNamespace": "",
     "references": [
-        "Boysheo.YooAsset",
+        "BoysheO.YooAsset",
         "Unity.ScriptableBuildPipeline",
         "Unity.ScriptableBuildPipeline.Editor"
     ],

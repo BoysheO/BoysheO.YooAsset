@@ -18,6 +18,21 @@ namespace YooAsset
         public static ILogger Logger = null;
 
         /// <summary>
+        /// io信息不屏蔽
+        /// </summary>
+        public static void LogIO(string info)
+        {
+            if (Logger != null)
+            {
+                Logger.Log(info);
+            }
+            else
+            {
+                UnityEngine.Debug.Log(info);
+            }
+        }
+        
+        /// <summary>
         /// 日志
         /// </summary>
         [Conditional("DEBUG")]

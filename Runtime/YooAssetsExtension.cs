@@ -110,6 +110,14 @@ namespace YooAsset
             DebugCheckDefaultPackageValid();
             return _defaultPackage.CheckLocationValid(location);
         }
+
+        /// <summary>
+        /// 检查DefaultPackage是否设置
+        /// </summary>
+        public static bool CheckDefaultPackageValid()
+        {
+            return _defaultPackage != null;
+        }
         #endregion
 
         #region 原生文件

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace YooAsset
 {
-    internal static class ManifestTools
+    public static class ManifestTools
     {
 #if UNITY_EDITOR
         /// <summary>
